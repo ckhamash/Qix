@@ -22,6 +22,7 @@ Intersection* Intersection::getHorizontal() {
 		return pCW;
 	else if (pCCW->getPos().y == pos.y)
 		return pCCW;
+	return nullptr;
 }
 
 Intersection* Intersection::getVertical() {
@@ -29,11 +30,42 @@ Intersection* Intersection::getVertical() {
 		return pCW;
 	else if (pCCW->getPos().x == pos.x)
 		return pCCW;
+	return nullptr;
 }
 
 bool Intersection::isRedundant() {
 	if (pCW->getPos().x == pCCW->getPos().x || pCW->getPos().y == pCCW->getPos().y)
 		return true;
+	return false;
+}
+
+bool Intersection::isInsideCorner() {
+	// get horizontal neighbor direction: left = -1, right = 1
+	int horizontalDirection = 0;
+	if (pos.x > getHorizontal()->getPos().x)
+		horizontalDirection = -1;
+	else if(pos.x < getHorizontal()->getPos().x)
+		horizontalDirection = 1;
+
+	// get vertical neighbor direction: up = -1, down = 1
+	int verticalDirection = 0;
+	if (pos.y > getVertical()->getPos().y)
+		verticalDirection = -1;
+	else if (pos.y < getVertical()->getPos().y)
+		verticalDirection = 1;
+
+	if (pCW == getHorizontal()) {
+		if (horizontalDirection == -1 && verticalDirection == 1)
+			return true;
+		if (horizontalDirection == 1 && verticalDirection == -1)
+			return true;
+	}
+	if (pCW == getVertical()) {
+		if (verticalDirection == 1 && horizontalDirection == 1)
+			return true;
+		if (verticalDirection == -1 && horizontalDirection == -1)
+			return true;
+	}
 	return false;
 }
 

@@ -27,6 +27,7 @@ public:
 	Intersection* getVertical();
 
 	bool isRedundant();
+	bool isInsideCorner();
 
 	void bridge(); // causes the neighbors of this intersection to point to each other
 
